@@ -1,0 +1,50 @@
+# Core Project Setup & Dependencies
+# These are the main packages installed via npm install or npx commands.
+
+# 1. Next.js, React, Tailwind CSS (Initialized via 'npx create-next-app@latest')
+# These are typically included by default.
+
+# 2. Database (Drizzle ORM and Neon Driver)
+npm install drizzle-orm @neondatabase/serverless
+# Drizzle CLI (Used for push/migration, installed as a dev dependency)
+npm install -D drizzle-kit
+
+# 3. Authentication
+npm install @clerk/nextjs
+
+# 4. AI / LLM
+npm install @google/genai
+
+# 5. Background Jobs / Workflow Engine
+npm install inngest
+
+# 6. HTTP Client (Used for making API calls)
+npm install axios
+
+# 7. Utilities & Components
+# UUID is used for generating unique Course IDs (e.g., in generate-course-outline API)
+npm install uuid
+
+# Shadcn UI Dependencies
+
+# Icons (Used for all icons in the project)
+npm install lucide-react
+
+# Utilities for dynamic styling (often used with Shadcn components)
+npm install clsx tailwind-merge
+
+# Toast/Notification Library (Used for showing generation status)
+npm install sonner
+
+# Flashcard Component (Used for the flipping effect)
+npm install react-card-flip
+
+# ----------------------------------------------------------------------
+# Summary of All Core Packages to Install:
+# ----------------------------------------------------------------------
+
+# The most efficient command to install all production and common dependencies:
+npm install @google/genai @clerk/nextjs @neondatabase/serverless drizzle-orm inngest axios uuid lucide-react clsx tailwind-merge sonner react-card-flip
+
+# Install Development Dependencies (Drizzle CLI)
+npm install -D drizzle-kit
