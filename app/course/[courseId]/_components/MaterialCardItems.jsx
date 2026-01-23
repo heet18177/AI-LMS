@@ -2,35 +2,42 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { RefreshCcw } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
 import { toast } from "sonner";
 
-const MaterialCardItems = ({ items, studyTypeContent, course }) => {
+const MaterialCardItems = ({ items, studyTypeContent, course, refreshData }) => {
   const [loading, setLoading] = useState(false);
 
+
   const GenerateContent = async () => {
+    console.log("fatch course" ,course);
+    toast("Generating content, please wait...");
     setLoading(true);
     let chapters = "";
     course?.courseLayout.chapters.forEach((chapter) => {
       chapters = (chapter.title || chapter.chapterTitle) + "," + chapters;
     });
 
-    const result = await axios.post("api/study-type-content", {
+    const result = await axios.post("/api/study-type-content", {
       courseId: course?.courseId,
-      type: items.name,
+      studyType: items.name,
       chapters: chapters,
     });
     console.log(result);
     setLoading(false);
+    refreshData(true);
+    toast.success("Content generated successfully!");
   };
   return (
+    <Link href={'/course/'+course?.courseId+items.path}>
     <div
       className={`border shadow-md p-5 rounded-lg flex flex-col items-center mt-2
-      ${studyTypeContent?.[items.type]?.length == null && "grayscale"}
+      ${!studyTypeContent?.[items.type] && "grayscale"}
     
     `}
     >
-      {studyTypeContent?.[items.type]?.length == null ? (
+      {!studyTypeContent?.[items.type] ? (
         <h2 className="p-1 px-2 rounded-full bg-green-700 text-white mb-3  text-sm">
           Generate
         </h2>
@@ -42,8 +49,8 @@ const MaterialCardItems = ({ items, studyTypeContent, course }) => {
 
       <Image src={items.icons} alt={items.name} width={60} height={60} />
       <h2 className="font-medium mt-3">{items.name}</h2>
-      <p className="text-gray-500 ">{items.description}</p>
-      {studyTypeContent?.[items.type]?.length == null ? (
+      <p className="text-gray-500 text-center">{items.description}</p>
+      {!studyTypeContent?.[items.type] ? (
         <Button
           className="mt-3 cursor-pointer bg-blue-700 w-full"
           onClick={GenerateContent}
@@ -55,6 +62,7 @@ const MaterialCardItems = ({ items, studyTypeContent, course }) => {
         <Button className="mt-3 cursor-pointer bg-blue-700 w-full">View</Button>
       )}
     </div>
+    </Link>
   );
 };
 

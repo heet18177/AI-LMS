@@ -29,5 +29,6 @@ export const STUDY_TYPE_CONTENT_TABLE = pgTable("StudyTypeContent", {
     id: serial().primaryKey(),
     courseId: varchar().notNull(),
     content: json(),
-    type: varchar().notNull()
+    type: varchar().notNull(),
+    status: varchar().default('Generating')
 })

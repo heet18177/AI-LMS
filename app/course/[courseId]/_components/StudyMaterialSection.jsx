@@ -60,14 +60,15 @@ export const StudyMaterialSection = ({courseId , course}) => {
       <h2 className="font-semibold text-2xl">Study materials</h2>
       <div className="grid grid-2 md:grid-cols-4 gap-5 mt-2">
         {MaterialList.map((items, index) => (
-          <Link key={index} href={'/course/'+courseId+items.path}>
+          
             <MaterialCardItems
               items={items}
               key={index}
               studyTypeContent={studyTypeContent}
               course = {course}
+              refreshData={GetStudyMaterial}
             />
-          </Link>
+          
         ))}
       </div>
     </div>

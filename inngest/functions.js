@@ -63,99 +63,99 @@ export const createNewUser = inngest.createFunction(
 );
 
 //3. Generate notes function
-export const GenerateNotes = inngest.createFunction(
-  { id: "generate-course" },
-  { event: "notes.generate" },
-  async ({ event, step }) => {
-    const { course } = event.data;
+// export const GenerateNotes = inngest.createFunction(
+//   { id: "generate-course" },
+//   { event: "notes.generate" },
+//   async ({ event, step }) => {
+//     const { course } = event.data;
 
-    //Generate notes for each chapter using AI
-    const notesResult = await step.run("Generate chapter notes", async () => {
-      // course.courseLayout may be a JSON string (stored in DB) or an object
-      let chapters = course?.courseLayout;
-      try {
-        if (typeof chapters === "string") {
-          chapters = JSON.parse(chapters);
-        }
-      } catch (err) {
-        console.error("Failed to parse courseLayout:", err);
-        chapters = null;
-      }
+//     //Generate notes for each chapter using AI
+//     const notesResult = await step.run("Generate chapter notes", async () => {
+//       // course.courseLayout may be a JSON string (stored in DB) or an object
+//       let chapters = course?.courseLayout;
+//       try {
+//         if (typeof chapters === "string") {
+//           chapters = JSON.parse(chapters);
+//         }
+//       } catch (err) {
+//         console.error("Failed to parse courseLayout:", err);
+//         chapters = null;
+//       }
 
-      // If courseLayout is an object containing a `chapters` array, use it
-      if (
-        chapters &&
-        !Array.isArray(chapters) &&
-        typeof chapters === "object" &&
-        Array.isArray(chapters.chapters)
-      ) {
-        chapters = chapters.chapters;
-      }
+//       // If courseLayout is an object containing a `chapters` array, use it
+//       if (
+//         chapters &&
+//         !Array.isArray(chapters) &&
+//         typeof chapters === "object" &&
+//         Array.isArray(chapters.chapters)
+//       ) {
+//         chapters = chapters.chapters;
+//       }
 
-      if (!chapters || !Array.isArray(chapters)) {
-        console.warn(
-          "No chapters found, nothing to generate. Resolved chapters:",
-          chapters
-        );
-        return "No chapters";
-      }
+//       if (!chapters || !Array.isArray(chapters)) {
+//         console.warn(
+//           "No chapters found, nothing to generate. Resolved chapters:",
+//           chapters
+//         );
+//         return "No chapters";
+//       }
 
-      let index = 0;
-      for (const chapter of chapters) {
-        try {
-          const PROMPT =
-            "Generate exam material detail content for each chapter, Make sure to includes all topic point in the content, make sure to giver content in HTML format (Do not Add HTMLK, Head, Body, title tag), The chapter: " +
-            JSON.stringify(chapter);
+//       let index = 0;
+//       for (const chapter of chapters) {
+//         try {
+//           const PROMPT =
+//             "Generate exam material detail content for each chapter, Make sure to includes all topic point in the content, make sure to giver content in HTML format (Do not Add HTMLK, Head, Body, title tag), The chapter: " +
+//             JSON.stringify(chapter);
 
-          const result = await generateNotesAiModel.sendMessage(PROMPT);
-          // Support both response.text() shapes
-          const aiResp =
-            (await (result.response?.text?.() || result.text?.())) || "";
+//           const result = await generateNotesAiModel.sendMessage(PROMPT);
+//           // Support both response.text() shapes
+//           const aiResp =
+//             (await (result.response?.text?.() || result.text?.())) || "";
 
-          // Save aiResp to database
-          const insertResult = await db.insert(CHAPTER_NOTES_TABLE).values({
-            chapterId: String(index),
-            courseId: course?.courseId,
-            notes: aiResp,
-          });
-          console.log(
-            "Saved notes for chapter",
-            index,
-            "insertResult:",
-            insertResult
-          );
-        } catch (err) {
-          console.error(
-            "Error generating/saving notes for chapter",
-            index,
-            err
-          );
-        }
-        index += 1;
-      }
+//           // Save aiResp to database
+//           const insertResult = await db.insert(CHAPTER_NOTES_TABLE).values({
+//             chapterId:index,
+//             courseId: course?.courseId,
+//             notes: aiResp,
+//           });
+//           console.log(
+//             "Saved notes for chapter",
+//             index,
+//             "insertResult:",
+//             insertResult
+//           );
+//         } catch (err) {
+//           console.error(
+//             "Error generating/saving notes for chapter",
+//             index,
+//             err
+//           );
+//         }
+//         index += 1;
+//       }
 
-      return "Completed";
-    });
+//       return "Completed";
+//     });
 
-    const updateCourseStatusResult = await step.run(
-      "Update course status to read",
-      async () => {
-        try {
-          const result = await db
-            .update(STUDY_MATERIAL_TABLE)
-            .set({
-              status: "Ready",
-            })
-            .where(eq(STUDY_MATERIAL_TABLE.courseId, course?.courseId));
-          return result;
-        } catch (err) {
-          console.error("Failed to update course status:", err);
-          throw err;
-        }
-      }
-    );
-  }
-);
+//     const updateCourseStatusResult = await step.run(
+//       "Update course status to read",
+//       async () => {
+//         try {
+//           const result = await db
+//             .update(STUDY_MATERIAL_TABLE)
+//             .set({
+//               status: "Ready",
+//             })
+//             .where(eq(STUDY_MATERIAL_TABLE.courseId, course?.courseId));
+//           return result;
+//         } catch (err) {
+//           console.error("Failed to update course status:", err);
+//           throw err;
+//         }
+//       }
+//     );
+//   }
+// );
 
 //4. Generate studytype content like Flashcard , quiz and Q-A
 
@@ -190,81 +190,77 @@ export const GenerateNotes = inngest.createFunction(
 //     }
 // );
 
-export const GenerateStudyTypeContent = inngest.createFunction(
-  { id: "Generate Study Type Content" },
-  { event: "studyType.content" },
+export const GenerateNotes = inngest.createFunction(
+  { id: 'generate-notes' },
+  { event: 'notes.generate' },
   async ({ event, step }) => {
-    logToFile("🚀 Inngest Function: Generate Study Type Content Started");
-    const { studyType, prompt, recordId } = event.data;
-    logToFile("Event Data:", event.data);
+    const { course } = event.data;
 
-    const FlashCardAiResult = await step.run("Generating content", async () => {
-      try {
-        logToFile(
-          "🤖 Sending prompt to AI Model (gemini-1.5-flash-001) [Stateless]..."
-        );
+    // Generate Notes for each chapter
+    const notesResult = await step.run('Generate Notes', async () => {
+      const chapters = course?.courseLayout?.chapters;
 
-        // Direct instantiation to avoid caching/state issues & side-effects
-        const { GoogleGenerativeAI } = require("@google/generative-ai");
-        const genAI = new GoogleGenerativeAI(
-          process.env.NEXT_PUBLIC_GEMINI_API_KEY
-        );
-        const model = genAI.getGenerativeModel({
-          model: "gemini-1.5-flash-001",
-          generationConfig: {
-            responseMimeType: "application/json",
-          },
-        });
+      // Iterating through each chapter to generate content
+      for (const [index, chapter] of chapters.entries()) {
+        const PROMPT = "Generate exam material detail content for each chapter, Make sure to includes all topic point in the content, make sure to giver content in HTML format (Do not Add HTML, Head, Body, title tag), The chapters :" + JSON.stringify(chapter);
 
-        const result = await model.generateContent(prompt);
-        let text = (await (result.response?.text?.() || result.text?.())) || "";
-        logToFile("🤖 Raw AI Response:", text.substring(0, 100) + "...");
+        // Call AI Model to generate content
+        const result = await generateNotesAiModel.sendMessage(PROMPT);
+        const aiNotesContent = result.response.text();
 
-        text = text
-          .replace(/```json/g, "")
-          .replace(/```/g, "")
-          .trim();
-
-        const parsed = JSON.parse(text);
-        logToFile("✅ JSON Parsed Successfully");
-        return parsed;
-      } catch (err) {
-        logToFile(
-          "❌ Failed to generate or parse AI response:",
-          err.toString()
-        );
-        return null;
+        // Save generated notes to database table
+        await db.insert(CHAPTER_NOTES_TABLE).values({
+          chapterId: index,
+          courseId: course?.courseId,
+          notes: aiNotesContent
+        })
       }
-    });
 
-    if (!FlashCardAiResult) {
-      logToFile("⚠️ FlashCardAiResult is null, skipping DB update.");
-      return;
-    }
+      return 'Success';
+    })
 
-    await step.run("Save data to Db", async () => {
-      logToFile("💾 Updating DB for recordId:", recordId);
-      try {
-        const updateResult = await db
-          .update(STUDY_TYPE_CONTENT_TABLE)
-          .set({
-            content:
-              typeof FlashCardAiResult === "string"
-                ? FlashCardAiResult
-                : JSON.stringify(FlashCardAiResult),
-            // type: studyType // Removed to avoid potential schema check issues if column optional/missing in this specific snippet context but safe to add if needed. Content is the main fix.
-          })
-          .where(eq(STUDY_TYPE_CONTENT_TABLE.id, recordId))
-          .returning();
+    // Update Status to 'Ready' after generating all notes
+    const updateStatusResult = await step.run('Update Course Status', async () => {
+      await db.update(STUDY_MATERIAL_TABLE)
+        .set({
+          status: 'Ready'
+        })
+        .where(eq(STUDY_MATERIAL_TABLE?.courseId, course?.courseId))
 
-        logToFile("✅ DB Update Result:", updateResult);
-        return "Success";
-      } catch (dbErr) {
-        logToFile("❌ DB Update Failed:", dbErr.toString());
-        throw dbErr;
-      }
+      return 'Success';
     });
   }
+);
+
+export const GenerateStudyTypeContent = inngest.createFunction(
+    { id: 'Generate Study Type Content' },
+    { event: 'study.type.content' },
+    async ({ event, step }) => {
+        const { studyType, courseId, recordId, chapters } = event.data;
+
+        const PROMPT = studyType == 'Flashcards' 
+            ? "Generate the flashcard on topic: " + chapters + " in JSON format with front back content, Maximum 15"
+            : "Generate Quiz on topic: " + chapters + " in JSON format with question and options, maximum 10";
+
+        // 1. Generate Content using AI
+        const AiResult = await step.run('Generating Study Content using AI', async () => {
+            const result = await generateStudyTypeContentAiModel.sendMessage(PROMPT);
+            const AI_RESPONSE = JSON.parse(result.response.text());
+            return AI_RESPONSE;
+        });
+
+        // 2. Save result to DB
+        await step.run('Save Content to DB', async () => {
+            await db.update(STUDY_TYPE_CONTENT_TABLE)
+                .set({
+                    content: typeof AiResult === 'string' ? AiResult : JSON.stringify(AiResult),
+                    status: 'Ready'
+                })
+                .where(eq(STUDY_TYPE_CONTENT_TABLE.id, recordId));
+        });
+
+        return 'Success';
+    }
 );
 
 // 3. EXPORT the array of all functions

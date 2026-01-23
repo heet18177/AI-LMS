@@ -4,8 +4,8 @@ import { inngest } from "@/inngest/client";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
-  const { chapters, courseId, type } = await req.json();
-  console.log("type", type);
+  const { chapters, courseId, studyType } = await req.json();
+  console.log("studyType", studyType);
   const PROMPT = `Generate the flashcard on topic: ${chapters} in JSON format with front back content, Maximum 15`;
 
   //insert record to DB , update status to generating
@@ -14,17 +14,17 @@ export async function POST(req) {
     .insert(STUDY_TYPE_CONTENT_TABLE)
     .values({
       courseId: courseId,
-      type: type,
+      type: studyType,
     })
     .returning({ id: STUDY_TYPE_CONTENT_TABLE.id });
 
   // Trigger Inngest function and await result so caller can observe success/failure
   try {
     const inngestResult = await inngest.send({
-      name: "studyType.content",
+      name: "study.type.content",
       data: {
-        studyType: type,
-        prompt: PROMPT,
+        studyType: studyType,
+        chapters: chapters,
         courseId: courseId,
         recordId: result[0].id,
       },
