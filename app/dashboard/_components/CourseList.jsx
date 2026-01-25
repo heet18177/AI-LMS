@@ -1,15 +1,17 @@
 "use client";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CourseCardItems from "./CourseCardItems";
 import { Button } from "@/components/ui/button";
 import { RefreshCcw } from "lucide-react";
+import { CourseCountContext } from "../../_context/CourseCountContext";
 
 const CourseList = () => {
   const { user } = useUser();
   const [courseList, setCourseList] = useState([]);
   const [loading , setLoading] = useState(false)
+  const {courseCount , setCourseCount} = useContext(CourseCountContext);
 
   useEffect(() => {
     user && getCourseList();
@@ -25,6 +27,7 @@ const CourseList = () => {
       console.log("API Response:", result.data);
       setCourseList(result.data.result);
       setLoading(false)
+      setCourseCount(result.data.result.length);
 
     } catch (error) {
       console.error("Error fetching courses:", error);

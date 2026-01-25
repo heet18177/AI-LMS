@@ -1,5 +1,5 @@
 import { db } from "@/configs/db";
-import { STUDY_MATERIAL_TABLE } from "@/configs/schema";
+import { STUDY_MATERIAL_TABLE, USER_TABLE } from "@/configs/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
@@ -12,7 +12,14 @@ export async function POST(req) {
     .from(STUDY_MATERIAL_TABLE)
     .where(eq(STUDY_MATERIAL_TABLE.createdBy, createdBy));
 
-  return NextResponse.json({ result: result });
+  const user = await db
+    .select()
+    .from(USER_TABLE)
+    .where(eq(USER_TABLE.email, createdBy));
+  
+  const isMember = user[0]?.isMember;
+
+  return NextResponse.json({ result: result, isMember: isMember });
 }
 
 export async function GET(req) {

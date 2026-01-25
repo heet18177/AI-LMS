@@ -5,11 +5,44 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Link from "next/link";
-
+import { CourseCountContext } from "../../_context/CourseCountContext";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { toast } from "sonner";
+import { useUser } from "@clerk/nextjs";
 
 const Sidebar = () => {
+
+  const { user } = useUser();
+  const router = useRouter();
+  const {courseCount , setCourseCount} = useContext(CourseCountContext);
+
+  useEffect(()=>{
+    user&&GetCourseList();
+  },[user])
+
+  const GetCourseList=async()=>{
+    const res=await axios.post('/api/courses',{
+      createdBy:user?.primaryEmailAddress?.emailAddress
+    })
+    setCourseCount(res.data.result?.length);
+  }
+
+  const courseLimit = async()=>{
+    const res = await axios.post('/api/courses', {
+      createdBy: user?.primaryEmailAddress?.emailAddress
+    });
+    setCourseCount(res.data.result.length);
+
+    if(res.data.result.length >= 5 && !res.data.isMember){
+      router.push('/dashboard/upgrade');
+      toast.error("You have reached the maximum limit of 5 courses");
+      return;
+    }
+    router.push('/create');
+  }
 
   const path = usePathname();
   const menuList = [
@@ -38,18 +71,18 @@ const Sidebar = () => {
       </div>
 
       <div className="mt-9 flex justify-center">
-        <Link href={'/create'}>
+        <div onClick={courseLimit} className="w-full sm:w-auto">
         <Button className="w-55 bg-blue-700 hover:bg-blue-800 cursor-pointer text-md">
           + Create New
         </Button>
-        </Link>
+        </div>
       </div>
 
       <div className="flex flex-col gap-60">
         <div className="mt-5">
           {menuList.map((menu, index) => (
-            <div
-              key={index}
+            <Link href={menu.path} key={index}>
+             <div
               className={`flex items-center p-3 gap-4 mx-4 hover:bg-slate-200 cursor-pointer px-10 rounded-xl ${
                 path == menu.path && "bg-slate-200"
               }`}
@@ -57,14 +90,15 @@ const Sidebar = () => {
               <menu.icon />
               <h2>{menu.name}</h2>
             </div>
+            </Link>
           ))}
         </div>
 
         {/* Credit section */}
         <div className="border p-5 bg-slate-100 rounded-xl mx-4">
-          <h2 className="text-lg mb-2">Available Credits : 5</h2>
-          <Progress value={30} />
-          <h2 className="text-sm">1 out of 5 credit used</h2>
+          <h2 className="text-lg mb-2">Available Credits : {5-courseCount}</h2>
+          <Progress value={courseCount/5*100} />
+          <h2 className="text-sm">{courseCount} out of 5 credit used</h2>
 
           <Link
             href={"/dashboard/upgrade"}

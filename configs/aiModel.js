@@ -90,45 +90,45 @@ export const generateStudyTypeContentAiModel = genAI
   });
 
   //Model for quiz
-  const GenerateQuizAiModel = genAI
-  .getGenerativeModel({
-    model: "gemini-2.5-flash-lite",
-    generationConfig: { responseMimeType: "application/json" },
-  })
-  .startChat({
-    history: [
-      {
-        role: "user",
-        parts: [
-          {
-            text: "Generate quiz on topic :- Flutter fundamentels , User Interface(UI) Development , Basic Navigation with Question and Options along with correct answer in JSON format",
-          },
-        ],
-      },
-      {
-        role: "model",
-        parts: [
-          {
-            text: JSON.stringify([
-              {
-                quizTitle: "Flutter Essentials Quiz",
-                questions: [
-                  {
-                    id: 1,
-                    topic: "Fundamentals",
-                    question:
-                      "Which programming language is used to develop Flutter applications?",
-                    options: ["Java", "Kotlin", "Dart", "Swift"],
-                    correctAnswer: "Dart",
-                  },
-                ],
-              },
-            ]),
-          },
-        ],
-      },
-    ],
-  });
+  // export const GenerateQuizAiModel = genAI
+  // .getGenerativeModel({
+  //   model: "gemini-2.5-flash-lite",
+  //   generationConfig: { responseMimeType: "application/json" },
+  // })
+  // .startChat({
+  //   history: [
+  //     {
+  //       role: "user",
+  //       parts: [
+  //         {
+  //           text: "Generate quiz on topic :- Flutter fundamentels , User Interface(UI) Development , Basic Navigation with Question and Options along with correct answer in JSON format",
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       role: "model",
+  //       parts: [
+  //         {
+  //           text: JSON.stringify([
+  //             {
+  //               quizTitle: "Flutter Essentials Quiz",
+  //               questions: [
+  //                 {
+  //                   id: 1,
+  //                   topic: "Fundamentals",
+  //                   question:
+  //                     "Which programming language is used to develop Flutter applications?",
+  //                   options: ["Java", "Kotlin", "Dart", "Swift"],
+  //                   correctAnswer: "Dart",
+  //                 },
+  //               ],
+  //             },
+  //           ]),
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // });
 
 /**
  * Utility function to generate the initial course outline

@@ -5,6 +5,8 @@ export const USER_TABLE = pgTable("users", {
     name: varchar("name", { length: 255 }).notNull(),
     email: varchar("email", { length: 255 }).notNull(),
     isMember: boolean("is_member").default(false),
+    customerId: varchar(),
+    
 });
 
 export const STUDY_MATERIAL_TABLE = pgTable("studyMaterial", {
@@ -15,7 +17,8 @@ export const STUDY_MATERIAL_TABLE = pgTable("studyMaterial", {
     difficultLevel: varchar().default('Easy'),
     courseLayout: json(),
     createdBy: varchar().notNull(),
-    status: varchar().default('Generating')
+    status: varchar().default('Generating'),
+    createdAt: varchar('createdAt')
 })
 
 export const CHAPTER_NOTES_TABLE = pgTable("chapterNotes", {
@@ -31,4 +34,12 @@ export const STUDY_TYPE_CONTENT_TABLE = pgTable("StudyTypeContent", {
     content: json(),
     type: varchar().notNull(),
     status: varchar().default('Generating')
+})
+
+export const PAYMENT_RECORD_TABLE = pgTable("paymentRecord", {
+    id: serial().primaryKey(),
+    customerId: varchar(),
+    sessionId: varchar()
+    
+    
 })

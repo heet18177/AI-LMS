@@ -1,8 +1,9 @@
 import { courseOutlineAIModel } from "@/configs/aiModel";
-import { STUDY_MATERIAL_TABLE } from "@/configs/schema";
+import { STUDY_MATERIAL_TABLE, USER_TABLE } from "@/configs/schema";
 import { db } from "@/configs/db";
 import { NextResponse } from "next/server";
 import { inngest } from "@/inngest/client";
+import { eq } from "drizzle-orm";
 
 export async function POST(req) {
     try {
@@ -10,8 +11,10 @@ export async function POST(req) {
 
         console.log('Received params:', { courseId, courseType, topic, difficultyLevel, createdBy });
 
-        const PROMPT = `Generate a study material for ${topic} for ${courseType} and the level of difficulty will be ${difficultyLevel}, with a summary of the course, a list of chapters along with a summary for each chapter, and a topic list in each chapter, including appropriate emoji in the content. All results should be in JSON format.
-`
+        const user = await db.select().from(USER_TABLE).where(eq(USER_TABLE.email, createdBy));
+        const isMember = user[0]?.isMember;
+
+        const PROMPT = `Generate a study material for ${topic} for ${courseType} and the level of difficulty will be ${difficultyLevel} with a summary of the course, a list of chapters along with a summary for each chapter, and a topic list in each chapter, including appropriate emoji in the content. All results should be in JSON format. ${!isMember ? 'Maximum 5 chapters' : ''}`
 
         console.log('Sending prompt to Gemini:', PROMPT);
 
@@ -31,6 +34,7 @@ export async function POST(req) {
             difficultLevel: difficultyLevel,
             createdBy: createdBy,
             courseLayout: JSON.stringify(aiResult),
+            createdAt: new Date().toISOString().split('T')[0]
         }).returning(STUDY_MATERIAL_TABLE);
 
         // Trigger te inngest function to generate notes

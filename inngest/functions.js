@@ -202,7 +202,7 @@ export const GenerateNotes = inngest.createFunction(
 
       // Iterating through each chapter to generate content
       for (const [index, chapter] of chapters.entries()) {
-        const PROMPT = "Generate exam material detail content for each chapter, Make sure to includes all topic point in the content, make sure to giver content in HTML format (Do not Add HTML, Head, Body, title tag), The chapters :" + JSON.stringify(chapter);
+        const PROMPT = "Generate exam material detail content for each chapter, Make sure to includes all topic point in the content, make sure to giver content in HTML format (Do not Add HTML, Head, Body, title tag) and maximum chapters :- 5, The chapters :" + JSON.stringify(chapter);
 
         // Call AI Model to generate content
         const result = await generateNotesAiModel.sendMessage(PROMPT);
@@ -238,14 +238,36 @@ export const GenerateStudyTypeContent = inngest.createFunction(
     async ({ event, step }) => {
         const { studyType, courseId, recordId, chapters } = event.data;
 
-        const PROMPT = studyType == 'Flashcards' 
-            ? "Generate the flashcard on topic: " + chapters + " in JSON format with front back content, Maximum 15"
-            : "Generate Quiz on topic: " + chapters + " in JSON format with question and options, maximum 10";
+        // Get User Membership status
+        const course = await db.select().from(STUDY_MATERIAL_TABLE).where(eq(STUDY_MATERIAL_TABLE.courseId, courseId));
+        if(!course || !course[0]) {
+             console.error("Course not found in DB");
+             return;
+        }
+        
+        const user = await db.select().from(USER_TABLE).where(eq(USER_TABLE.email, course[0].createdBy));
+        const isMember = user[0]?.isMember;
+
+        const limitFlashcard = isMember ? 50 : 15;
+        const limitQuiz = isMember ? 20 : 10;
+        const limitQA = isMember ? 20 : 15;
+
+        let PROMPT = null;
+        if(studyType == 'Flashcards') {
+            PROMPT = "Generate the flashcard on topic: " + chapters + " in JSON format with front back content, Maximum " + limitFlashcard;
+        } else if(studyType == 'Quiz') {
+            PROMPT = "Generate Quiz on topic: " + chapters + " in JSON format with question and options with correct answer, maximum " + limitQuiz;
+        } else if(studyType == 'Question/Answers' || studyType == 'qa') {
+            PROMPT = "Generate Questions and Answers on topic: " + chapters + " in JSON format with question and answer fields, Maximum " + limitQA;
+        }
 
         // 1. Generate Content using AI
         const AiResult = await step.run('Generating Study Content using AI', async () => {
             const result = await generateStudyTypeContentAiModel.sendMessage(PROMPT);
-            const AI_RESPONSE = JSON.parse(result.response.text());
+            const text = result.response.text();
+            // Clean JSON string if user model returns markdown code blocks
+            const cleanedText = text.replace(/```json/g, '').replace(/```/g, '');
+            const AI_RESPONSE = JSON.parse(cleanedText);
             return AI_RESPONSE;
         });
 

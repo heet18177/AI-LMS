@@ -12,7 +12,8 @@ const CourseCardItems = ({course}) => {
         <div className="flex justify-between items-center">
           <Image src={"/knowledge.png"} alt="other" width={50} height={50} />
           <h2 className="px-2 p-1 text-[10px] font-bold rounded-full bg-blue-700 text-white">
-            16 Nov , 2025
+            {course?.createdAt?.split(" ")[0]}
+
           </h2>
         </div>
         <h2 className="mt-3 font-medium text-lg line-clamp-1">

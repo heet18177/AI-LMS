@@ -92,10 +92,10 @@ const Create = () => {
           </button>
         ) : (
           <button
-            className="w-35 bg-blue-700 hover:bg-blue-800 cursor-pointer text-lg font-semibold text-white px-3 rounded-md py-1"
+            className="w-35 bg-blue-700 hover:bg-blue-800 cursor-pointer text-lg font-semibold text-white px-3 rounded-md py-1 flex items-center justify-center"
             onClick={generateCoureseOutline} disabled={loading}
           >
-            {loading ? <Loader className="animate-spin flex justify-center items-center"/> : "Generate"}
+            {loading ? <Loader className="animate-spin"/> : "Generate"}
           
           </button>
         )}

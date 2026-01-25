@@ -22,8 +22,8 @@ export async function POST(req) {
             return NextResponse.json({
                 notes,
                 flashcard: contentList?.find(item => item.type === 'Flashcards') || null,
-                quiz: null,
-                qa: null,
+                quiz: contentList?.find(item => item.type === 'Quiz') || null,
+                qa: contentList?.find(item => item.type === 'qa' || item.type === 'Question/Answers') || null,
             });
         }
 
@@ -43,7 +43,7 @@ export async function POST(req) {
                 .from(STUDY_TYPE_CONTENT_TABLE)
                 .where(and(eq(STUDY_TYPE_CONTENT_TABLE.courseId, courseId), eq(STUDY_TYPE_CONTENT_TABLE.type, studyType)));
 
-            return NextResponse.json(result[0] );
+            return NextResponse.json(result[0] || { content: null });
         }
 
 
