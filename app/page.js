@@ -1,11 +1,12 @@
 import { UserButton } from "@clerk/nextjs";
 import Image from "next/image";
+import Dashboard from "./dashboard/page";
+import DashboardLayout from "./dashboard/layout";
 
 export default function Home() {
   return (
-    <div>
-      <h1 className="text-4xl font-bold text-center">Hello guys</h1>
-      <UserButton/>
-    </div>
+    <DashboardLayout>
+      <Dashboard/>
+    </DashboardLayout>
   );
 }
