@@ -48,7 +48,7 @@ const Quiz = () => {
    return quiz&&(
     <div>
       <DashboardHeader/>
-     <div className='px-30'>
+     <div className='px-5 md:px-32'>
         <h1 className='text-2xl font-bold mt-5'>Quiz</h1>
         <StepProgress data={quiz} stepCount={stepCount} setStepCount={(value)=>setStepCount(value)}/>
      </div>
@@ -59,7 +59,7 @@ const Quiz = () => {
       {/* ))} */}
      </div>
 
-     <div className='px-55'>
+     <div className='px-5 md:px-48'>
       {correctAnswer === true &&  (
         <div className='border p-3 border-green-700 bg-green-200 rounded-lg'>
             <h1 className='text-green-700'>Correct</h1>

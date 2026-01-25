@@ -28,7 +28,7 @@ const QuestionAnswers = () => {
   return (
     <div>
       <DashboardHeader/>
-      <div className='px-30'>
+      <div className='px-5 md:px-32'>
         <h1 className='text-2xl font-bold mt-5 text-center'>Questions with Answers</h1>
         <StepProgress data={qa?.content} stepCount={stepCount} setStepCount={(value)=>setStepCount(value)}/>
           {qa?.content && (

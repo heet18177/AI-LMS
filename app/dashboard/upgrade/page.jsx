@@ -74,7 +74,7 @@ function Upgrade() {
  }
 
   return (
-    <div className='p-10'>
+    <div className='p-5 md:p-10'>
       <h2 className='font-medium text-3xl text-center'>Upgrade Your Plan</h2>
       <p className='text-gray-500 text-center mt-2'>Select the best plan for your learning journey</p>
 

@@ -4,15 +4,15 @@ import React from "react";
 
 const CourseIntro = ({course}) => {
   return (
-    <div className="flex gap-5 items-center border p-8 shadow-xl rounded-lg">
+    <div className="flex flex-col md:flex-row gap-5 items-center border p-8 shadow-xl rounded-lg ">
       <Image
         src={"/knowledge.png"}
         alt="Course Knowledge"
         width={70}
         height={70}
       />
-      <div>
-        <h2 className="font-bold text-2xl">
+      <div className="w-full">
+        <h2 className="font-bold text-xl md:text-2xl">
           {course?.courseLayout?.courseTitle}
         </h2>
         <p>{course?.courseLayout?.courseSummary}</p>

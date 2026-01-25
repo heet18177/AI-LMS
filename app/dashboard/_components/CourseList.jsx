@@ -35,7 +35,7 @@ const CourseList = () => {
   };
   return (
     <div className="mt-10">
-      <div className="flex justify-between">
+      <div className="flex flex-col gap-3 text-center md:flex-row justify-between">
         <h2 className="text-3xl font-bold">Your Study Material</h2>
         <Button variant="outline" className="cursor-pointer text-blue-700" onClick={getCourseList}>
           <RefreshCcw />

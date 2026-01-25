@@ -72,8 +72,8 @@ const Flashcards = () => {
           </CarouselItem>))}
         </CarouselContent>
 
-        <CarouselPrevious className="left-[-3rem] h-10 w-10 rounded-full border bg-white shadow-md hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800" />
-        <CarouselNext className="right-[-3rem] h-10 w-10 rounded-full border bg-white shadow-md hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800" />
+        <CarouselPrevious className="left-2 md:left-[-3rem] h-10 w-10 rounded-full border bg-white shadow-md hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800 absolute top-1/2 -translate-y-1/2" />
+        <CarouselNext className="right-2 md:right-[-3rem] h-10 w-10 rounded-full border bg-white shadow-md hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800 absolute top-1/2 -translate-y-1/2" />
       </Carousel>
     </div>
     </div>
