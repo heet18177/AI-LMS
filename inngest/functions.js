@@ -256,7 +256,7 @@ export const GenerateStudyTypeContent = inngest.createFunction(
         if(studyType == 'Flashcards') {
             PROMPT = "Generate the flashcard on topic: " + chapters + " in JSON format with front back content, Maximum " + limitFlashcard;
         } else if(studyType == 'Quiz') {
-            PROMPT = "Generate Quiz on topic: " + chapters + " in JSON format with question and options with correct answer, maximum " + limitQuiz;
+            PROMPT = "Generate Quiz on topic: " + chapters + " in JSON format with question and options. Options must be an object with keys A, B, C, D. Correct answer should be the key (e.g. 'A'). Maximum " + limitQuiz;
         } else if(studyType == 'Question/Answers' || studyType == 'qa') {
             PROMPT = "Generate Questions and Answers on topic: " + chapters + " in JSON format with question and answer fields, Maximum " + limitQA;
         }

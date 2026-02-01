@@ -4,7 +4,7 @@ import React from "react";
 
 const CourseIntro = ({course}) => {
   return (
-    <div className="flex flex-col md:flex-row gap-5 items-center border p-8 shadow-xl rounded-lg ">
+    <div className="flex flex-col md:flex-row gap-5 items-center border p-8 shadow-xl rounded-lg dark:bg-slate-900">
       <Image
         src={"/knowledge.png"}
         alt="Course Knowledge"

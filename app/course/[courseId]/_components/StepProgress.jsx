@@ -8,6 +8,7 @@ function StepProgress({ stepCount, setStepCount, data = [] }) {
       
       {/* Previous Button */}
       <Button
+        className="cursor-pointer"
         variant="outline"
         size="sm"
         disabled={stepCount === 0}
@@ -30,9 +31,9 @@ function StepProgress({ stepCount, setStepCount, data = [] }) {
       </div>
 
       {/* Next Button */}
-      <Button
+      <Button 
         size="sm"
-        className="bg-blue-600 hover:bg-blue-700"
+        className="bg-blue-600 hover:bg-blue-700 cursor-pointer"
         disabled={stepCount === data.length - 1}
         onClick={() => setStepCount(stepCount + 1)}
       >

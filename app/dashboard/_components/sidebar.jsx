@@ -63,16 +63,16 @@ const Sidebar = () => {
     },
   ];
   return (
-    <div className="h-screen shadow-md">
+    <div className="h-screen shadow-md dark:bg-slate-900 dark:border-r border-slate-700">
       {/* Logo */}
       <div className="flex items-center gap-2 p-5">
         <Image src={"/logo.svg"} alt="logo" width={40} height={40} />
-        <h2 className="font-bold text-2xl">Easy Study</h2>
+        <h2 className="font-bold text-2xl dark:text-white">Easy Study</h2>
       </div>
 
       <div className="mt-9 flex justify-center">
         <div onClick={courseLimit} className="w-full sm:w-auto">
-        <Button className="w-55 bg-blue-700 hover:bg-blue-800 cursor-pointer text-md">
+        <Button className="w-55 bg-blue-600 hover:bg-blue-700 cursor-pointer text-md text-white">
           + Create New
         </Button>
         </div>
@@ -83,8 +83,8 @@ const Sidebar = () => {
           {menuList.map((menu, index) => (
             <Link href={menu.path} key={index}>
              <div
-              className={`flex items-center p-3 gap-4 mx-4 hover:bg-slate-200 cursor-pointer px-10 rounded-xl ${
-                path == menu.path && "bg-slate-200"
+              className={`flex items-center p-3 gap-4 mx-4 hover:bg-slate-200 dark:hover:bg-slate-800 dark:text-white cursor-pointer px-10 rounded-xl  ${
+                path == menu.path && "bg-slate-200 dark:bg-slate-800"
               }`}
             >
               <menu.icon />
@@ -95,14 +95,14 @@ const Sidebar = () => {
         </div>
 
         {/* Credit section */}
-        <div className="border p-5 bg-slate-100 rounded-xl mx-4">
-          <h2 className="text-lg mb-2">Available Credits : {5-courseCount}</h2>
-          <Progress value={courseCount/5*100} />
-          <h2 className="text-sm">{courseCount} out of 5 credit used</h2>
+        <div className="border p-5 bg-slate-100 rounded-xl mx-4 dark:bg-slate-800 dark:border-none">
+          <h2 className="text-lg mb-2 dark:text-white ">Available Credits : {5-courseCount}</h2>
+          <Progress value={courseCount/5*100}/>
+          <h2 className="text-sm dark:text-white mt-1">{courseCount} out of 5 credit used</h2>
 
           <Link
             href={"/dashboard/upgrade"}
-            className="text-xs mt-3 text-blue-700"
+            className="text-xs mt-3 text-blue-700 dark:text-blue-400"
           >
             Upgrade to create more
           </Link>

@@ -55,7 +55,10 @@ export async function GET(req) {
       
       // Update user membership
       const updateResult = await db.update(USER_TABLE)
-        .set({ isMember: true })
+        .set({ 
+          isMember: true,
+          customerId: session.customer
+        })
         .where(eq(USER_TABLE.email, userEmail));
 
       // Create Payment Record

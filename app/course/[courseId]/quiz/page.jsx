@@ -33,16 +33,34 @@ const Quiz = () => {
         setQuiz(result.data?.content || [])
     }
 
-    const checkAnswer = (userAnswer , currentQuestion) => {
-      if(userAnswer == currentQuestion?.correct_answer || userAnswer == currentQuestion?.answer){
-        setCorrectAnswer(true)
-        setShowAnser(true)
-      }
-      else{
-        setCorrectAnswer(false)
-        setShowAnser(true)
-      }
-       
+    const checkAnswer = (userAnswer, currentQuestion) => {
+        // Normalize everything to lowercase string for comparison
+        const userAns = userAnswer?.toString().trim().toLowerCase();
+        const correctAns = currentQuestion?.correct_answer?.toString().trim().toLowerCase();
+        const correctAnsContent = currentQuestion?.answer?.toString().trim().toLowerCase();
+
+        // Check if the user answer matches the correct answer key OR the correct answer content
+        // Also handling if userAnswer is a key, check if the value at that key matches correctAns
+        let isCorrect = false;
+
+        if (userAns === correctAns || userAns === correctAnsContent) {
+            isCorrect = true;
+        } 
+        // If user provided a key (e.g. 'a'), check if the content at that key matches correct answer content
+        else if (currentQuestion?.options && currentQuestion.options[userAnswer]) {
+             const optionContent = currentQuestion.options[userAnswer]?.toString().trim().toLowerCase();
+             if (optionContent === correctAns || optionContent === correctAnsContent) {
+                 isCorrect = true;
+             }
+        }
+
+        if (isCorrect) {
+            setCorrectAnswer(true);
+            setShowAnser(true);
+        } else {
+            setCorrectAnswer(false);
+            setShowAnser(true);
+        }
     }
 
    return quiz&&(
@@ -63,13 +81,13 @@ const Quiz = () => {
       {correctAnswer === true &&  (
         <div className='border p-3 border-green-700 bg-green-200 rounded-lg'>
             <h1 className='text-green-700'>Correct</h1>
-            <p>Your answer is correct</p>
+            <p className='dark:text-black'>Your answer is correct</p>
         </div>
       )}
        {correctAnswer === false &&  (
         <div className='border p-3 border-red-700 bg-red-200 rounded-lg'>
             <h1 className='text-red-700'>Incorrect</h1>
-            <p>Your answer is incorrect, <span className=' text-green-700'>correct answer is {quiz[stepCount]?.correct_answer || quiz[stepCount]?.answer}</span></p>
+            <p className='dark:text-black'>Your answer is incorrect, <span className=' text-green-700'>correct answer is {quiz[stepCount]?.correct_answer || quiz[stepCount]?.answer}</span></p>
         </div>
        )}
      </div>

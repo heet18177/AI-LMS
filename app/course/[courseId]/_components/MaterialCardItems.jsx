@@ -32,24 +32,24 @@ const MaterialCardItems = ({ items, studyTypeContent, course, refreshData }) => 
   return (
     <Link href={'/course/'+course?.courseId+items.path}>
     <div
-      className={`border shadow-md p-5 rounded-lg flex flex-col items-center mt-2
+      className={`border shadow-md p-5 rounded-lg flex flex-col items-center mt-2 dark:bg-slate-900
       ${!studyTypeContent?.[items.type] && "grayscale"}
     
     `}
     >
       {!studyTypeContent?.[items.type] ? (
-        <h2 className="p-1 px-2 rounded-full bg-green-700 text-white mb-3  text-sm">
+        <h2 className="p-1 px-2 rounded-full bg-green-700 text-white mb-3  text-sm dark:bg-green-300 dark:text-black">
           Generate
         </h2>
       ) : (
-        <h2 className="p-1 px-2 rounded-full bg-green-700 text-white mb-3  text-sm">
+        <h2 className="p-1 px-2 rounded-full bg-green-700 text-white mb-3  text-sm dark:bg-green-300 dark:text-black">
           Ready
         </h2>
       )}
 
       <Image src={items.icons} alt={items.name} width={60} height={60} />
       <h2 className="font-medium mt-3">{items.name}</h2>
-      <p className="text-gray-500 text-center">{items.description}</p>
+      <p className="text-gray-400 text-center">{items.description}</p>
       {!studyTypeContent?.[items.type] ? (
         <Button
           className="mt-3 cursor-pointer bg-blue-700 w-full"
@@ -59,7 +59,7 @@ const MaterialCardItems = ({ items, studyTypeContent, course, refreshData }) => 
           Generate
         </Button>
       ) : (
-        <Button className="mt-3 cursor-pointer bg-blue-700 w-full">View</Button>
+        <Button className="mt-3 cursor-pointer bg-blue-700 w-full dark:bg-blue-300 dark:hover:bg-blue-700 dark:text-black">View</Button>
       )}
     </div>
     </Link>

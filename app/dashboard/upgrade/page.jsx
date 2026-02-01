@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Check } from 'lucide-react'
 import axios from 'axios'
@@ -8,9 +8,13 @@ import { useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import { toast } from 'sonner'
 
+
+
+
 function Upgrade() {
   const {user} = useUser();
   const searchParams = useSearchParams();
+  const [userDetails , setUserDetails] = useState();
 
   useEffect(()=>{
     if(searchParams.get('session_id')){
@@ -18,13 +22,17 @@ function Upgrade() {
     }
   },[searchParams])
 
+  useEffect(()=>{
+    user && GetUserDetails();
+  },[user])
+
   const VerifyPayment = async() => {
     try {
       const result = await axios.get('/api/payment/checkout?session_id='+searchParams.get('session_id'));
       
       if(result.data.success) {
         toast('Plan Upgraded Successfully!');
-        window.location.reload(); // To refresh context
+        window.location.replace('/dashboard/upgrade'); // Refresh and clear query params
       }
     } catch(e) {
       toast('Payment Verification Failed. Please contact support.');
@@ -73,6 +81,11 @@ function Upgrade() {
     }
  }
 
+ const GetUserDetails = async()=>{
+    const result = await axios.get('/api/user-subscription?email='+user?.primaryEmailAddress?.emailAddress);
+    setUserDetails(result.data);
+ }
+
   return (
     <div className='p-5 md:p-5'>
       <h2 className='font-medium text-3xl text-center'>Upgrade Your Plan</h2>
@@ -98,10 +111,10 @@ function Upgrade() {
             </ul>
 
             <Button 
-              className={`w-full mt-10 ${plan.price === 0 ? 'variant-outline' : 'bg-blue-600'}`}
+              className={`w-full mt-10 ${plan.price === 0 ? 'variant-outline ' : 'bg-blue-600'}`}
               onClick={() => onCheckoutClick(plan)}
             >
-              {plan.price === 0 ? 'Current Plan' : 'Upgrade Now'}
+              {userDetails?.isMember ? 'Manage Subscription' : 'Upgrade Now'}
             </Button>
           </div>
         ))}

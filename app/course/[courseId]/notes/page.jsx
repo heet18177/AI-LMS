@@ -107,9 +107,9 @@ const Viewnotes = () => {
 
         {/* End of Notes */}
         {stepCount === notes.length - 1 && notes.length > 0 && (
-          <div className="mt-16 text-center">
+          <div className="mt-8 text-center ">
             <h2 className="mb-4 text-xl font-semibold">End of notes</h2>
-            <Button onClick={() => router.back()}>Go back to course</Button>
+            <Button onClick={() => router.back()} className="mb-5">Go back to course</Button>
           </div>
         )}
       </div>
