@@ -9,7 +9,7 @@ const FlashcardItem = ({isFlipped, handleClick , flashcard}) => {
         </div>
 
         <div className='p-4 bg-white text-blue-700 flex items-center justify-center rounded-lg cursor-pointer h-[250px] w-[200px] md:h-[350px] md:w-[300px] shadow-2xl dark:bg-white dark:text-blue-700' onClick={handleClick}>
-         <h2>{flashcard?.back}</h2>
+         <h2 className="text-center">{flashcard?.back}</h2>
         </div>
       </ReactCardFlip>
   )
