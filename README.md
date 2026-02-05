@@ -43,57 +43,6 @@
 
 ---
 
-## ⚙️ Environment Variables
-
-Create a `.env.local` with the variables below (example):
-
-```
-NEXT_PUBLIC_DATABASE_CONNECTION_STRING=postgres://user:pass@host:port/db
-NEXT_PUBLIC_GEMINI_API_KEY=your_gemini_api_key
-STRIPE_SECRET_KEY=sk_...
-NEXT_PUBLIC_HOST_URL=http://localhost:3000
-# Clerk env vars (as needed)
-# Other secrets: any webhook signing secrets, API keys
-```
-
-Notes:
-- The app expects a Postgres connection string (Neon or other Postgres provider).
-- Gemini key is used by the AI generators in `configs/aiModel.js`.
-
----
-
-## 🔁 Common Scripts
-
-- `npm run dev` — Run Next.js dev server
-- `npm run build` — Build for production
-- `npm start` — Start production server
-- `npm run inngest` — Starts Inngest dev (uses `npx inngest-cli@latest dev`)
-
----
-
-## 🔍 Important Server Routes & Features
-
-- `POST /api/generate-course-outline` — Generates course outline via Gemini and persists study material
-- `POST /api/payment/checkout` — Creates Stripe checkout session
-- Background event: `notes.generate` (Inngest) — generates notes after outline creation
-
----
-
-## 📝 How to run locally
-
-1. Clone and install dependencies
-   ```bash
-   npm install
-   ```
-2. Create `.env.local` with the necessary env vars
-3. Run dev servers:
-   ```bash
-   npm run dev
-   npm run inngest
-   ```
-4. Open `http://localhost:3000`
-
----
 
 
 
