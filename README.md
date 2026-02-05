@@ -67,8 +67,7 @@ NEXT_PUBLIC_HOST_URL=http://localhost:3000
 ```
 
 Notes:
-
-- The app expects a Postgres connection string (Supabase Postgres provider).
+- The app expects a Postgres connection string (Neon or other Postgres provider).
 - Gemini key is used by the AI generators in `configs/aiModel.js`.
 
 ---
@@ -100,5 +99,37 @@ Notes:
 3. Run dev servers:
    ```bash
    npm run dev
+   npm run inngest
    ```
 4. Open `http://localhost:3000`
+
+---
+
+## 🛡️ Deployment
+
+- Deploy to Vercel, Netlify (or your preferred host). Ensure env vars are configured in the platform.
+- For background task reliability, run Inngest in production (or use their managed offering).
+- Use Stripe webhooks to handle subscription lifecycle updates and reflect membership in DB.
+
+---
+
+## 🤝 Contributing
+
+- Open issues or PRs for fixes and improvements.
+- Follow existing code style and add tests for new features where possible.
+
+---
+
+## 📄 License
+
+This repository does not include a LICENSE file. Add one if you intend to open-source the project.
+
+---
+
+If you'd like, I can also:
+- Add a CONTRIBUTING.md with developer setup steps ✅
+- Add an ENV example file (`.env.example`) ✅
+- Add CI workflow or Vercel config for deployment ✅
+
+Thanks — tell me which of the follow-up items you'd like next!
+#
