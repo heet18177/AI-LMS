@@ -4,6 +4,16 @@
 
 ---
 
+## 🚫 License & Usage
+
+**This project is for educational and portfolio purposes only.**
+The source code requires specific API keys and database configurations to run.
+**Note:** Core AI logic files (`configs/aiModel.js`) are excluded from this repository for security. Cloning this repo will result in a non-functional app unless you implement your own AI provider in `configs/aiModel.example.js`.
+Unauthorized commercial use, reproduction, or distribution without permission is prohibited.
+All Rights Reserved.
+
+---
+
 ## 🚀 Highlights
 
 - **Next.js 16** (app directory) with server components and client components
@@ -57,6 +67,7 @@ NEXT_PUBLIC_HOST_URL=http://localhost:3000
 ```
 
 Notes:
+
 - The app expects a Postgres connection string (Supabase Postgres provider).
 - Gemini key is used by the AI generators in `configs/aiModel.js`.
 
@@ -91,4 +102,3 @@ Notes:
    npm run dev
    ```
 4. Open `http://localhost:3000`
-
