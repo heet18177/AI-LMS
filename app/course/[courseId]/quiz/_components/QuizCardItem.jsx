@@ -16,7 +16,7 @@ const QuizCardItem = ({quiz , userSelectedOption, index}) => {
             {quiz?.options && Object.entries(quiz?.options).map(([key, value], index)=>(
                 <h1 key={index} onClick={()=>{
                     setSelectedOption(key);   
-                    userSelectedOption(key);
+                   console.log(userSelectedOption)(key);
                 }} 
                     className={`w-full border border-blue-500 p-3 rounded-2xl text-lg px-5 cursor-pointer hover:bg-blue-700 hover:text-white ${selectedOption == key ? 'bg-blue-700 text-white hover:bg-blue-700' : ''}`}>{key}. {value}</h1>
             ))}
