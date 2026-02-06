@@ -21,7 +21,7 @@ import { eq } from "drizzle-orm";
 // const USER_TABLE = {};
 // const eq = () => true;
 const userResp = "user created";
-// END NOTE
+
 
 // 1. HelloWorld Function
 export const HelloWorld = inngest.createFunction(
