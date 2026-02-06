@@ -1,4 +1,4 @@
-import { courseOutlineAIModel } from "@/configs/aiModel";
+import { courseOutlineAIModel } from "@/configs/AiModel";
 import { STUDY_MATERIAL_TABLE, USER_TABLE } from "@/configs/schema";
 import { db } from "@/configs/db";
 import { NextResponse } from "next/server";

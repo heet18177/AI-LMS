@@ -9,7 +9,7 @@ import { inngest } from "./client";
 import {
   generateNotesAiModel,
   generateStudyTypeContentAiModel,
-} from "@/configs/aiModel";
+} from "@/configs/AiModel";
 import { db } from "@/configs/db";
 import { eq } from "drizzle-orm";
 
