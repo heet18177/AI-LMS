@@ -66,6 +66,16 @@ function Upgrade() {
   ]
 
  const onCheckoutClick=async(plan)=>{
+    if(userDetails?.isMember){
+        const result = await axios.post('/api/payment/manage-subscription',{
+            email: user?.primaryEmailAddress?.emailAddress
+        })
+        console.log(result.data);
+        if(result.data?.url){
+            window.location.assign(result.data.url);
+        }
+        return;
+    }
     if(plan.price==0){
         // Handle free plan logic if needed, or just return
         return;
