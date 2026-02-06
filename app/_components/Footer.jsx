@@ -8,7 +8,7 @@ function Footer() {
             <div className='col-span-1 md:col-span-1'>
                  <div className='flex items-center gap-2 mb-4'>
                     <Image src={'/logo.svg'} alt='logo' width={32} height={32}/>
-                    <h2 className='font-bold text-xl text-slate-800'>AI LMS</h2>
+                    <h2 className='font-bold text-xl text-slate-800'>Learnify AI</h2>
                 </div>
                 <p className='text-slate-500 text-sm leading-relaxed'>
                     Empowering the next generation of learners with AI-driven tools.
@@ -42,7 +42,7 @@ function Footer() {
             </div>
         </div>
         <div className='border-t border-slate-200 mt-12 pt-8 text-center text-sm text-slate-400'>
-            © {new Date().getFullYear()} AI LMS. Crafted with ❤️.
+            © {new Date().getFullYear()} Learnify AI. Crafted with ❤️.
         </div>
     </footer>
   )

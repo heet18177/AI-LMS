@@ -67,7 +67,7 @@ const Sidebar = () => {
       {/* Logo */}
       <div className="flex items-center gap-2 p-5">
         <Image src={"/logo.svg"} alt="logo" width={40} height={40} />
-        <h2 className="font-bold text-2xl dark:text-white">Easy Study</h2>
+        <h2 className="font-bold text-2xl dark:text-white">Learnify AI</h2>
       </div>
 
       <div className="mt-9 flex justify-center">

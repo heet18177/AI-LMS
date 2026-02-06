@@ -48,7 +48,7 @@ const DashboardHeader = () => {
           </SheetContent>
         </Sheet>
         <Image src={"/logo.svg"} alt="logo" width={40} height={40} onClick={()=>router.push('/dashboard')} className="cursor-pointer"/>
-        <h2 className="font-bold text-2xl">Easy Study</h2>
+        <h2 className="font-bold text-2xl">Learnify AI</h2>
       
       </div>
       <div className="flex items-center gap-3">

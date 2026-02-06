@@ -18,7 +18,7 @@ function CallToAction() {
                 Ready to transform your learning?
             </h2>
             <p className="text-xl text-slate-300 mb-10 max-w-2xl mx-auto">
-                Join thousands of students and creators who are already using AI LMS to master new skills faster than ever before.
+                Join thousands of students and creators who are already using Learnify AI to master new skills faster than ever before.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

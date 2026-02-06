@@ -21,7 +21,7 @@ function Header() {
         <div className='max-w-7xl mx-auto flex justify-between items-center bg-white/70 backdrop-blur-xl border border-white/20 shadow-sm rounded-full px-6 py-2'>
             <div className='flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity'>
                 <Image src={'/logo.svg'} alt='logo' width={32} height={32}/>
-                <h2 className='font-bold text-xl text-slate-800 tracking-tight'>AI LMS</h2>
+                <h2 className='font-bold text-xl text-slate-800 tracking-tight'>Learnify AI</h2>
             </div>
             
             {/* Desktop Menu */}
@@ -57,7 +57,7 @@ function Header() {
                         <SheetHeader className="mb-6">
                             <div className='flex items-center gap-2'>
                                 <Image src={'/logo.svg'} alt='logo' width={32} height={32}/>
-                                <h2 className='font-bold text-xl text-slate-800'>AI LMS</h2>
+                                <h2 className='font-bold text-xl text-slate-800'>Learnify AI</h2>
                             </div>
                         </SheetHeader>
                         
